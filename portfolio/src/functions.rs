@@ -86,9 +86,9 @@ pub fn multiply_matrix_vector(matrix: &[Vec<f64>], vector: &[f64]) -> Vec<f64> {
 }
 
 pub fn gen_means(num_assets: usize) -> Vec<f64> {
-  let normal = Normal::new(15.0, 10.0).unwrap();
+  let normal = Normal::new(0.08, 0.04).unwrap();
   (0..num_assets)
-      .map(|_| 5.0 + normal.sample(&mut rand::thread_rng()))
+      .map(|_| 0.02 + normal.sample(&mut rand::thread_rng()))
       .collect()
 }
 
@@ -98,9 +98,9 @@ pub fn gen_covariances(num_assets: usize) -> Vec<Vec<f64>> {
   for i in 0..num_assets {
       for j in 0..num_assets {
           if i == j {
-              cov_matrix[i][j] = 0.03 + rng.gen::<f64>() * 0.03;
+              cov_matrix[i][j] = 0.02 + rng.gen::<f64>() * 0.06;
           } else {
-              cov_matrix[i][j] = 0.03 + rng.gen::<f64>() * 0.03;
+              cov_matrix[i][j] = 0.03 + rng.gen::<f64>() * 0.07;
           }
       }
   }
@@ -172,6 +172,7 @@ pub fn calculate_portfolio_variance(weights: &[f64], cov_inv: &[Vec<f64>]) -> f6
   let weights_covariance = multiply_matrix_vector(cov_inv, weights);
   let portfolio_variance = multiply_vector_vector(weights, &weights_covariance);
   portfolio_variance.sqrt()
+  //portfolio_variance
 }
 
 pub fn sort_with_indices(data: &[f64]) -> (Vec<f64>, Vec<usize>) {
